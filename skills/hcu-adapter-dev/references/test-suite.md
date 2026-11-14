@@ -202,3 +202,11 @@ def test_xxx(...):
 放入 `PYTHONPATH`，并核对 `hcu_adapter.__file__` 与 catalog 来源。
 `HOST=none` 只关闭桥安装，不阻止 sitecustomize 提前导入已安装的 Adapter；
 脚本运行后再改 sys.path 可能混用已缓存包。缺桥的 skip 单列，不能算设备通过。
+
+Mamba verify-state scatter 的回归位于 `tests/kernels/test_mamba_state_scatter.py`
+和 `tests/adapter/test_mamba_state_scatter_bridge.py`：复制路径要求完整目标状态按位
+相等，覆盖非 identity source-row、无效 source/destination/step、entry 尾块和外层
+stride；Graph 同时改变输入值与映射元数据。桥接测试保留已缓存 wrapper 别名，
+并验证 fresh-process 显式快关与 spawn 子进程。真实桥接夹具必须兼容自动 bootstrap
+已经安装路由的进程：隔离原始 JIT 后测试，再恢复进入测试前的绑定，不能把
+HOSTnone 单独通过误作完整 suite 兼容证据。

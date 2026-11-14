@@ -33,6 +33,10 @@ LOG = logging.getLogger("hcu.adapter")
 
 # canonical name -> (what gets blocked, opt-in env that re-enables it)
 SWITCHES = {
+    "mamba_state_scatter": (
+        "SGLang flattened Mamba state scatter (startup-only upstream fallback)",
+        None,
+    ),
     "qsa_mqa": ("QSA MQA BoltOPs dispatch (falls back to Torch reference)", None),
     "vllm_sparse_indexer": ("vLLM C4 indexer public OOT compatibility; fresh-process stock fallback", "HCU_VLLM_SPARSE_INDEXER_IMPL"),
     "vllm_mhc": ("vLLM official Torch mHC compatibility registration (startup only)", None),    "deep_ep": ("DeepInfer DeepEP compatibility surface", None),
