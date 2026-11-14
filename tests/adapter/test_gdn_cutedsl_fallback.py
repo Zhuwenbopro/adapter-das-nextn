@@ -116,8 +116,9 @@ class GdnCutedslFallbackTests(unittest.TestCase):
 
         exc = ModuleNotFoundError("No module named 'cuda'", name="cuda")
         fake_torch = types.SimpleNamespace(version=types.SimpleNamespace(hip="6.0"))
-        with mock.patch.object(subject, "torch", fake_torch), mock.patch(
-            "builtins.__import__", side_effect=exc
+        with mock.patch.object(subject, "torch", fake_torch), mock.patch.object(
+            subject, "_cutedsl_unavailable",
+            return_value=f"CuTeDSL runtime absent ({exc})",
         ):
             with self.assertLogs("hcu.adapter", level="INFO") as logs:
                 self.assertIsNone(subject.install())

@@ -1,6 +1,6 @@
 # 算子档位矩阵（自动生成，勿手改）
 
-> 生成：`python tools/gen_tier_matrix.py`（最近 2026-11-12）；事实源 = `BACKEND_CATALOG`（hcu_adapter/hcu_config.py）。
+> 生成：`python tools/gen_tier_matrix.py`（最近 2026-11-14）；事实源 = `BACKEND_CATALOG`（hcu_adapter/hcu_config.py）。
 > L0 `impl-naming` 做新鲜度校验改表须随 catalog 同 commit（governance §3b）。
 > 文件命名导航规则见 governance §3b；缺档 = 该行空白——那是实现排期的直接输入。
 
@@ -281,6 +281,18 @@ GDN/gated-delta-rule 线性注意力（sglang fla 面）
 | aiter | validated DTK aiter CK/triton 核路由（fwd_h 状态递推 b |
 
 路由变量：`HCU_LINEAR_ATTN_GDN`
+
+## linear_attn_gdn_verify
+
+SGLang GDN MTP target verification
+
+| 档位 | 状态 / 备注 |
+|---|---|
+| triton | production explicit upstream rollback; also aut |
+| aiter | validated vendor verify bridge in gdn_aiter.py |
+| auto | production default policy: qualified gfx936/DTK |
+
+路由变量：`HCU_LINEAR_ATTN_GDN_VERIFY`
 
 ## fused_moe
 
