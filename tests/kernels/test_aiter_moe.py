@@ -11,6 +11,13 @@ from hcu_adapter import aiter_moe
     (8, 256, 128, 3, 2), (384, 5120, 288, 3, 6), (128, 5120, 288, 3, 3),
 ])
 def test_channel_fp8_swiglu_clamp_eager_and_graph(monkeypatch, experts, width, inner, rows, topk):
+    # Query the assigned device at execution time, before allocating tensors.
+    if torch.version.hip is not None:
+        arch = torch.cuda.get_device_properties(
+            torch.cuda.current_device()
+        ).gcnArchName.split(":")[0]
+        if arch == "gfx936":
+            pytest.skip("gfx936: AITER channel-FP8 MoE provider is unavailable")
     monkeypatch.setenv("HCU_FUSED_MOE_IMPL", "aiter")
     x = torch.empty((rows, width), dtype=torch.bfloat16, device="cuda")
     w1 = torch.ones((experts, 2 * inner, width), device="cuda").to(torch.float8_e4m3fn)
